@@ -1,1 +1,0 @@
-ffmpeg -i input_video.mp4 -i input_audio.mp3 -filter_complex "[1:a]aformat=channel_layouts=mono,showwaves=s=1280x720:mode=cline:colors=white[v]; [v]split[top][bottom]; [bottom]gblur=sigma=10[blurred]; [top][blurred]blend=all_mode=addition[glow]; [0:v][glow]overlay=y=H-h[final]" -map "[final]" -map 1:a -c:a copy -pix_fmt yuv420p -y output_glow.mp4
