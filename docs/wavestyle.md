@@ -654,9 +654,7 @@ ffmpeg -i audio.mp3 -filter_complex \
 
 *** Particle/points waveform
 ```
-ffmpeg -i audio.mp3 -filter_complex \
-"[0:a]showwaves=colors=white:scale=sqrt:mode=p2p,format=yuva420p[v]" \
--map "[v]" -map 0:a -c:v libx264 -c:a copy output.mp4
+ffmpeg -i audio.mp3 -filter_complex "[0:a]showwaves=colors=white:scale=sqrt:mode=p2p,format=yuva420p[v]" -map "[v]" -map 0:a -c:v libx264 -c:a copy output.mp4
 ```
 ---
 

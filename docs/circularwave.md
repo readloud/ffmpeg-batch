@@ -27,11 +27,7 @@ If you want the circle to appear slightly transparent so the background image pe
 
 **Rotating Circular Waveform**
 
-ffmpeg -loop 1 -i image.jpg -i audio.mp3 -filter_complex \
-"[1:a]avectorscope=s=720x720:m=circular:colors=white:zoom=1.5[sw]; \
- [sw]format=rgba,rotate=a=t*0.5:c=none:ow=rotw(a):oh=roth(a)[rot]; \
- [0:v][rot]overlay=x=(W-w)/2:y=(H-h)/2:format=auto[outv]" \
--map "[outv]" -map 1:a -c:v libx264 -pix_fmt yuv420p -c:a copy -shortest output_rotating.mp4
+ffmpeg -loop 1 -i audio.jpg -i audio.mp3 -filter_complex "[1:a]avectorscope=s=720x720:m=circular:colors=white:zoom=1.5[sw];[sw]format=rgba,rotate=a=t*0.5:c=none:ow=rotw(a):oh=roth(a)[rot];[0:v][rot]overlay=x=(W-w)/2:y=(H-h)/2:format=auto[outv]" -map "[outv]" -map 1:a -c:v libx264 -pix_fmt yuv420p -c:a copy -shortest output_rotating.mp4
 
 **Explanation of the "Magic" Behind Rotation:**
 `rotate=a=t*0.5`: This part controls the rotation speed.
@@ -214,8 +210,8 @@ Based on the output, here's the most compatible command:
 ffmpeg -i audio.mp3 -filter_complex "[0:a]avectorscope=s=720x720:zoom=1.3:draw=line:rc=1:gc=1:bc=1,format=yuv420p[outv]" -map "[outv]" -map 0:a -c:v libx264 -output.mp4
 ```
 If you want a more circular-like effect, use:
+These scripts should work with standard FFmpeg builds without requiring the non-existent mode=circle parameter.
 
 ```
 ffmpeg -i audio.mp3 -filter_complex "[0:a]showwaves=s=720x720:mode=cline:rate=25:colors=cyan,geq=r='min(255, hypot(X-360,Y-360)*2)':g='min(255, hypot(X-360,Y-360)*2)':b=255,format=yuv420p[outv]" -map "[outv]" -map 0:a output.mp4
-These scripts should work with standard FFmpeg builds without requiring the non-existent mode=circle parameter.
 ```
